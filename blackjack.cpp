@@ -42,7 +42,9 @@ void create_deck(vector<card> &deck)
 
 int main()
 {
-	cout << "Welcome to Sam's Blackjack" << endl << endl;
+	cout << "Welcome to Sam's Blackjack v1" << endl << endl;
+
+	int cash = 1000;
 
 	srand(unsigned(time(0)));
 	vector<card> deck;
@@ -52,12 +54,15 @@ int main()
 	random_shuffle(deck.begin(), deck.end(), myrandom);
 
 	int cardamount = 0;
-	int totalValue = 0;
+	int dealeramount = 0;
+	int yourValue = 0;
+	int dealerValue = 0;
 	string input;
 
 	/* while loop that powers the game */
 	while (1)
 	{
+		cout << "You have " << cash << " dollars" << endl;
 		while (cardamount < 2)
 		{
 			card top = deck.back();
@@ -65,16 +70,29 @@ int main()
 
 			/* If the card value is > 10, it is set to 10 */
 			/* Jack, Queen, King has value of 10 */
-			if (top.val == 11 || top.val == 12 || top.val == 12) totalValue = totalValue + 10;
-			else totalValue = totalValue + top.val;
+			if (top.val == 11 || top.val == 12 || top.val == 13) yourValue = yourValue + 10;
+			else yourValue = yourValue + top.val;
 
 			Sleep(2000);
-			cout << "Card showing: " << top.suit << " " << top.val << endl;
+			cout << "Your Card Showing: " << top.suit << " " << top.val << endl;
 			cardamount++;
 		}
-		cout << "Current Value: " << totalValue << endl;
-		if (totalValue == 21) cout << "You got a Blackjack!" << endl;
-		else cout << "You did not get a Blackjack" << endl;
+		while (dealeramount < 2)
+		{
+			card top = deck.back();
+			deck.pop_back();
+
+			/* If the card value is > 10, it is set to 10 */
+			/* Jack, Queen, King has value of 10 */
+			if (top.val == 11 || top.val == 12 || top.val == 13) dealerValue = dealerValue + 10;
+			else dealerValue = dealerValue + top.val;
+
+			Sleep(2000);
+			dealeramount++;
+			cout << "Dealer Card Showing: " << top.suit << " " << top.val << endl;
+		}
+		cout << "Your Current Value: " << yourValue << endl;
+		cout << "Dealer Current Value: " << dealerValue << endl;
 
 		if (deck.size() == 0) break;
 
@@ -87,7 +105,9 @@ int main()
 
 		/* reset card value and total value */
 		cardamount = 0;
-		totalValue = 0;
+		dealeramount = 0;
+		yourValue = 0;
+		dealerValue = 0;
 
 		cout << endl;
 	}
